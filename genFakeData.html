@@ -1,0 +1,128 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+
+<html>
+<head>
+	    <meta charset="UTF-8">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Faker/3.1.0/faker.js" type="text/javascript"></script>
+	
+	<script type="text/javascript">
+		
+		(function() {
+			Date.prototype.toYMD = Date_toYMD;
+
+			function Date_toYMD() {
+				var year, month, day;
+				year = String(this.getFullYear());
+				month = String(this.getMonth() + 1);
+				if (month.length == 1) {
+					month = "0" + month;
+				}
+				day = String(this.getDate());
+				if (day.length == 1) {
+					day = "0" + day;
+				}
+				return year + "-" + month + "-" + day;
+			}
+		})();
+		
+		window.onload = function() {
+			
+			var today = new Date();
+		
+			let divContainer = document.getElementById("main");
+			
+			// Dogs
+//			divContainer.innerHTML += "INSERT INTO dogs (name,breed,sex,shots,licensed,neutered,birthdate,weight)";
+			
+			// Cats
+//			divContainer.innerHTML += "INSERT INTO cats (name,breed,sex,shots,declawed,neutered,birthdate)";
+			
+			// Exotics
+//			divContainer.innerHTML += "INSERT INTO exotics (name,species,sex,neutered,birthdate)";
+
+			// Notes i.e catNotes dogNotes exoticNotes
+//			divContainer.innerHTML += "INSERT INTO exoticNotes (exoticsFk,vetName,date,note)";
+
+			// Relationship Tables i.e. catsOwners dogsOwners exoticsOwners
+//			divContainer.innerHTML += "INSERT INTO exoticsOwners (exoticsFk,ownersFk)";	
+
+			// Owners
+			divContainer.innerHTML += "INSERT INTO owners (fname,lname,add1,add2,city,st,zip)";			
+			
+			divContainer.innerHTML += "<br>VALUES";
+			
+			// Dogs
+/*
+			for (let i = 0; i < 999; i++)
+			{
+				divContainer.innerHTML += "<br>('" + faker.name.firstName() + "','" + faker.lorem.word() + "','" + faker.random.arrayElement(["M","F"]) + "'," + faker.random.boolean() + "," + faker.random.boolean() + "," + faker.random.boolean() + ",'" + faker.date.past(15, today.getFullYear()).toYMD() + " 00:00:00'," + faker.random.number({min:0, max:150}) + "),";
+			}
+			
+				divContainer.innerHTML += "<br>('" + faker.name.firstName() + "','" + faker.lorem.word() + "','" + faker.random.arrayElement(["M","F"]) + "'," + faker.random.boolean() + "," + faker.random.boolean() + "," + faker.random.boolean() + ",'" + faker.date.past(15, today.getFullYear()).toYMD() + " 00:00:00'," + faker.random.number({min:0, max:150}) + ")";	
+*/
+				
+				
+			// Cats
+/*
+			for (let i = 0; i < 999; i++)
+			{
+				divContainer.innerHTML += "<br>('" + faker.name.firstName() + "','" + faker.lorem.word() + "','" + faker.random.arrayElement(["M","F"]) + "'," + faker.random.boolean() + "," + faker.random.boolean() + "," + faker.random.boolean() + ",'" + faker.date.past(15, today.getFullYear()).toYMD() + " 00:00:00'" + "),";
+			}
+			
+				divContainer.innerHTML += "<br>('" + faker.name.firstName() + "','" + faker.lorem.word() + "','" + faker.random.arrayElement(["M","F"]) + "'," + faker.random.boolean() + "," + faker.random.boolean() + "," + faker.random.boolean() + ",'" + faker.date.past(15, today.getFullYear()).toYMD() + " 00:00:00'" + ")";		
+*/
+
+			//Exotics
+/*
+			for (let i = 0; i < 999; i++)
+			{
+				divContainer.innerHTML += "<br>('" + faker.name.firstName() + "','" + faker.lorem.word() + "','" + faker.random.arrayElement(["M","F"]) + "'," + faker.random.boolean() + ",'" + faker.date.past(15, today.getFullYear()).toYMD() + " 00:00:00'" + "),";
+			}
+			
+				divContainer.innerHTML += "<br>('" + faker.name.firstName() + "','" + faker.lorem.word() + "','" + faker.random.arrayElement(["M","F"]) + "'," + faker.random.boolean() + ",'" + faker.date.past(15, today.getFullYear()).toYMD() + " 00:00:00'" + ")";
+*/
+		
+			// Notes
+/*
+			for (let i = 0; i < 999; i++)
+			{
+				divContainer.innerHTML += "<br>(" + faker.random.number({min:1, max:1000}) + ",'" + faker.random.arrayElement(["Joe Smith","Debbie Johnson","Tamera Hansen"]) + "','" + faker.date.past(10, today.getFullYear()).toYMD() + " 00:00:00','" + faker.lorem.paragraph() + "'),";
+			}
+			
+				divContainer.innerHTML += "<br>(" + faker.random.number({min:1, max:1000}) + ",'" + faker.random.arrayElement(["Joe Smith","Debbie Johnson","Tamera Hansen"]) + "','" + faker.date.past(10, today.getFullYear()).toYMD() + " 00:00:00','" + faker.lorem.paragraph() + "')";
+*/
+
+			// Relationship
+/*
+			for (let i = 1; i < 1000; i++)
+			{
+				divContainer.innerHTML += "<br>(" + i + "," + faker.random.number({min:1, max:1000}) +"),";
+			}
+			
+				divContainer.innerHTML += "<br>(" + 1000 + "," + faker.random.number({min:1, max:1000}) +")";
+*/
+
+			// Owner
+			for (let i = 0; i < 999; i++)
+			{
+				divContainer.innerHTML += "<br>('" + faker.name.firstName() + "','" + faker.name.lastName().replace('\'', '') + "','" + faker.address.streetAddress({ maximum: 64 }).replace('\'', '') + "','" + faker.address.streetName({ maximum: 64 }).replace('\'', '') + "','" + faker.address.city({ maximum: 64 }).replace('\'', '') + "','" + faker.address.stateAbbr() + "','" + faker.address.zipCode("#####") + "'),";
+			}
+			
+				divContainer.innerHTML += "<br>('" + faker.name.firstName() + "','" + faker.name.lastName().replace('\'', '') + "','" + faker.address.streetAddress({ maximum: 64 }).replace('\'', '') + "','" + faker.address.streetName({ maximum: 64 }).replace('\'', '') + "','" + faker.address.city({ maximum: 64 }).replace('\'', '') + "','" + faker.address.stateAbbr() + "','" + faker.address.zipCode("#####") + "')";
+		
+		
+		}
+
+    </script>
+
+    <title></title>
+</head>
+
+<body>
+	
+	<div id="main">
+	</div>
+
+</body>
+</html>

@@ -1,0 +1,26 @@
+.animalTable {
+	border-collapse: collapse;
+	width: 100%;
+	table-layout: fixed;
+}
+
+.animalTable th {
+    background-color: #1AC9A7;
+    color: white;
+    cursor: pointer;
+}
+
+.animalTable, th, td {
+    border: 1px solid black;
+    padding: 10px;
+    text-align: left;
+}
+	
+table.animalTable tr:nth-child(even) {
+	background-color: #dedede;
+}
+
+.filterField {
+	width: 98%;
+	font-size: 10px
+}
