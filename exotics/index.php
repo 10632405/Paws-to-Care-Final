@@ -1,4 +1,10 @@
 <?php
+session_start(); 
+	
+if(!isset($_SESSION['isAdmin'])){
+		header("location:../index.php");
+}
+
 include("../dbconnect.php");
 
 // Create connection
@@ -8,7 +14,7 @@ if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
 }
 
-$sql = "SELECT exotics.id, exotics.name, exotics.species, exotics.sex, exotics.neutered, exotics.birthdate, owners.fname, owners.lname FROM exotics 
+$sql = "SELECT exotics.id, exotics.name, exotics.species, exotics.sex, exotics.neutered, exotics.birthdate, owners.fname, owners.lname, owners.add1 , owners.add2, owners.city, owners.st, owners.zip FROM exotics 
 INNER JOIN exoticsowners on exotics.id = exoticsowners.exoticsFk
 INNER JOIN owners on exoticsowners.ownersFk = owners.id";
 $result = mysqli_query($conn, $sql);
@@ -35,10 +41,34 @@ if (mysqli_num_rows($result) > 0) {
 		$today = new DateTime(date());
 		$age = $today->diff($birthdate);
         
-        $data['Age - Birthdate'] = $age->y . " - " . date_format($birthdate,"M/d/Y");
+        $data['Age - Birthdate'] = $age->y . " - " . date_format($birthdate,"F d, Y");
         
         $data['Owners'] = $row["fname"] . " " . $row["lname"];
-        $data['Notes'] = " ";
+        $data['ownerDetail'] = $row["fname"] . " " . $row["lname"] . "<p>" . $row["add1"] . " " . $row["add2"] . "<br>" . $row["city"] . " " . $row["st"] . ", ". $row["zip"] ."</p>";
+		$data['Notes'] = " ";
+
+		$notes = " ";
+
+		$sqlNotes = "SELECT vetName, date, note FROM exoticnotes WHERE exoticsFk = " . $row["id"];
+
+		$noteResults = mysqli_query($conn, $sqlNotes);
+		if (mysqli_num_rows($noteResults) > 0) {
+			$count = 1;
+			while($note = mysqli_fetch_assoc($noteResults)) {
+				$notes .= "<div class='card m-2'>";
+				$notes .= "<div class='card-body'>";
+				$notes .= "<h5 class='card-title'> Note " . $count . "</h5>";
+				$notes .= "<h6 class='card-subtitle mb-2 text-muted'>". $note['vetName'] . " | " . date_format(new DateTime($note["date"]),"F d, Y") . "</h6>";
+				$notes .= "<p class='card-text'>" . $note['note'] . "</p>";
+				$notes .= "</div>";
+				$notes .= "</div>";
+				$count++;
+			}
+		}else{
+			$notes = "There are no notes";
+		}
+
+		$data['noteDetail'] = base64_encode($notes);
         
         
         array_push($animals, $data);

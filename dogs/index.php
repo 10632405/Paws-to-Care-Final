@@ -1,14 +1,20 @@
 <?php
+session_start(); 
+	
+if(!isset($_SESSION['isAdmin'])){
+		header("location:../index.php");
+}
+
 include("../dbconnect.php");
 
 // Create connection
 $conn = mysqli_connect($servername, $username, $password, $dbname);
 // Check connection
 if (!$conn) {
-    die("Connection failed: " . mysqli_connect_error());
+	die("Connection failed: " . mysqli_connect_error());
 }
 
-$sql = "SELECT dogs.id, dogs.name, dogs.breed, dogs.sex, dogs.shots, dogs.licensed, dogs.neutered, dogs.birthdate, dogs.weight, owners.fname, owners.lname FROM dogs
+$sql = "SELECT dogs.id, dogs.name, dogs.breed, dogs.sex, dogs.shots, dogs.licensed, dogs.neutered, dogs.birthdate, dogs.weight, owners.fname, owners.lname, owners.add1 , owners.add2, owners.city, owners.st, owners.zip FROM dogs
 INNER JOIN dogsowners on dogs.id = dogsowners.dogsFk
 INNER JOIN owners on dogsowners.ownersFk = owners.id";
 
@@ -20,34 +26,59 @@ $toJSON = array();
 $animals = array();
 
 if (mysqli_num_rows($result) > 0) {
-    // Change to new array with readable keys
-    while($row = mysqli_fetch_assoc($result)) {
-        
-        $data = array();
-        $data['id'] = $row["id"];
-        $data['Name'] = $row["name"];
-        $data['Breed'] = $row["breed"];
-        $data['Sex'] = $row["sex"];
-        $data['Shots'] = $row["shots"];
-        $data['Licensed'] = $row["licensed"];
-        $data['Neutered'] = $row["neutered"];
-        
+	// Change to new array with readable keys
+	while($row = mysqli_fetch_assoc($result)) {
+
+		$data = array();
+		$data['id'] = $row["id"];
+		$data['Name'] = $row["name"];
+		$data['Breed'] = $row["breed"];
+		$data['Sex'] = $row["sex"];
+		$data['Shots'] = $row["shots"];
+		$data['Licensed'] = $row["licensed"];
+		$data['Neutered'] = $row["neutered"];
+
 		$birthdate = new DateTime($row["birthdate"]);
 		$today = new DateTime(date());
 		$age = $today->diff($birthdate);
-        
-        $data['Age - Birthdate'] = $age->y . " - " . date_format($birthdate,"M/d/Y");
-        
-        $data['Weight'] = $row["weight"];
+
+		$data['Age - Birthdate'] = $age->y . " - " . date_format($birthdate,"F d, Y");
+
+		$data['Weight'] = $row["weight"];
 		$data['Owners'] = $row["fname"] . " " . $row["lname"];
+		$data['ownerDetail'] = $row["fname"] . " " . $row["lname"] . "<p>" . $row["add1"] . " " . $row["add2"] . "<br>" . $row["city"] . " " . $row["st"] . ", ". $row["zip"] ."</p>";
+
 		$data['Notes'] = " ";
-        
-        
-        array_push($animals, $data);
-        
-    }
+
+		$notes = " ";
+
+		$sqlNotes = "SELECT vetName, date, note FROM dognotes WHERE dogsFk = " . $row["id"];
+
+		$noteResults = mysqli_query($conn, $sqlNotes);
+		if (mysqli_num_rows($noteResults) > 0) {
+			$count = 1;
+			while($note = mysqli_fetch_assoc($noteResults)) {
+				$notes .= "<div class='card m-2'>";
+				$notes .= "<div class='card-body'>";
+				$notes .= "<h5 class='card-title'> Note " . $count . "</h5>";
+				$notes .= "<h6 class='card-subtitle mb-2 text-muted'>". $note['vetName'] . " | " . date_format(new DateTime($note["date"]),"F d, Y") . "</h6>";
+				$notes .= "<p class='card-text'>" . $note['note'] . "</p>";
+				$notes .= "</div>";
+				$notes .= "</div>";
+				$count++;
+			}
+		}else{
+			$notes = "There are no notes";
+		}
+
+		$data['noteDetail'] = base64_encode($notes);
+
+
+		array_push($animals, $data);
+
+	}
 } else {
-    echo "0 results";
+	echo "0 results";
 }
 
 $toJSON["animals"] = $animals;

@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <title>Paws to Care Jasmine SpecRunner</title>
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/jasmine/2.4.1/jasmine.css" type="text/css">
+    <style type="text/css">
+		.jasmine_html-reporter .jasmine-banner .jasmine-title { 
+			background: url("img/pawprint.svg") no-repeat;
+			height: 57px;
+    width: 65px;
+    	}
+		.jasmine_html-reporter .jasmine-symbol-summary li.jasmine-passed { font-size: 14px; }
+		.jasmine_html-reporter .jasmine-symbol-summary li.jasmine-passed:before { color: #1AC9A7; content: "\02022"; }
+		.jasmine_html-reporter .jasmine-bar.jasmine-passed { background-color: #1AC9A7; }
+		.jasmine_html-reporter .jasmine-summary li.jasmine-passed a { color: #7e7e7e; }
+    </style>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="css/style.css" type="text/css">
+    <link rel="stylesheet" href="admin/css/style.css" type="text/css">
+    
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js" integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em" crossorigin="anonymous"></script>
+
+    <script src="admin/js/animals.js" type="text/javascript"></script>
+    
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/jasmine/2.4.1/jasmine.js" type="text/javascript"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/jasmine/2.4.1/jasmine-html.js" type="text/javascript"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/jasmine/2.4.1/boot.js" type="text/javascript"></script>
+    
+    <script type="text/javascript">
+
+    //unit tests
+    
+describe("Check that the table has been filled", function() { //suite
+
+	beforeAll(function(done) {
+		window.setTimeout(done, 1000);
+	});
+
+	it("should have Name in the first header cell", function() { //spec
+		let table = document.getElementById("animalTable");
+		expect(table.rows[1].cells[0].innerHTML).toBe("Name");
+	});
+});
+describe("Check that the table can be filtered", function() { //suite
+
+	beforeAll(function(done) {
+		document.getElementById("filterSex").value = "F";
+		filterTable('Sex');
+		done();
+	});
+
+	it("should have Name in the first header cell", function() { //spec
+		let table = document.getElementById("animalTable");
+		
+		let visableRows = new Array();
+		
+		for (row = 0; row < table.rows.length-1; row++){
+			if(table.rows[row].style.cssText !== 'display: none;')
+			{
+				visableRows.push(table.rows[row]);
+			}
+		}
+		
+		if (animal == "dogs"){
+			expect(visableRows[2].cells[0].innerHTML).toBe("Eliza");
+		}else if (animal == "cats"){
+			expect(visableRows[2].cells[0].innerHTML).toBe("Shirley");
+		}else if (animal == "exotics"){
+			expect(visableRows[2].cells[0].innerHTML).toBe("Oren");
+		}
+	});
+});
+
+describe("Check that when we go to page two that the first animal name is", function() { //suite
+	beforeAll(function(done) {
+		let pageTwo = document.getElementById("paginationItems").getElementsByTagName("li")[2].childNodes[0];
+		
+		paginationClick(pageTwo);
+		done();
+	});
+	it("should have animal name, check specific name Ezequiel for dogs, Manuel for cats and Ericka for exotics", function() { //spec
+
+		let table = document.getElementById("animalTable");
+		
+		if (animal == "dogs"){
+			expect(table.rows[2].cells[0].innerHTML).toBe("Ezequiel");
+		}else if (animal == "cats"){
+			expect(table.rows[2].cells[0].innerHTML).toBe("Manuel");
+		}else if (animal == "exotics"){
+			expect(table.rows[2].cells[0].innerHTML).toBe("Ericka");
+		}
+
+	});
+});
+
+describe("Check that when we sort name ascending", function() { //suite
+	beforeAll(function(done) {
+		tableHeaderClick("name");
+		done();
+	});
+	it("should have animal name, check specific name Aiden for dogs, Adan for cats and Ada for exotics", function() { //spec
+		
+
+		
+		let table = document.getElementById("animalTable");
+		
+		if (animal == "dogs"){
+			expect(table.rows[2].cells[0].innerHTML).toBe("Aiden");
+		}else if (animal == "cats"){
+			expect(table.rows[2].cells[0].innerHTML).toBe("Adan");
+		}else if (animal == "exotics"){
+			expect(table.rows[2].cells[0].innerHTML).toBe("Ada");
+		}
+
+	});
+});
+
+describe("Check modal contents", function() { //suite
+	beforeAll(function(done) {
+		//tableHeaderClick("name");
+		done();
+	});
+	it("should have animal name in the modal", function() { //spec
+		
+
+		
+		let table = document.getElementById("animalTable");
+		
+		if (animal == "dogs"){
+			
+			expect(document.getElementById("notesModal183").innerHTML.indexOf('Aiden') !== -1).toBe(true);
+		}else if (animal == "cats"){
+			expect(document.getElementById("notesModal603").innerHTML.indexOf('Adan') !== -1).toBe(true);
+		}else if (animal == "exotics"){
+			expect(document.getElementById("notesModal17").innerHTML.indexOf('Ada') !== -1).toBe(true);
+		}
+
+	});
+});
+    </script>
+</head>
+
+<body>
+
+  <div id="homeBanner" class="jumbotron text-center mt-2 container">
+    <h1>Paws to Care</h1>
+
+</div>
+
+<main class="container-fluid m-1">
+<div id="mainTableDiv" class="m-2">
+	<div id="mainTableDivOuter">
+  <div id="mainTableDivCenter"><h1>Click on which type of animal you want to look at from the menu on the top right of the screen.</h1></div>
+	</div>
+</div>
+
+</main>
+
+
+</body>
+</html>

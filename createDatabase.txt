@@ -56,7 +56,11 @@ CREATE TABLE owners(
   add2 VARCHAR(64),
   city VARCHAR(64),
   st CHAR(2),
-  zip CHAR(5)
+  zip CHAR(5),
+  username VARCHAR(64) UNIQUE,
+  password VARCHAR(256),
+  isadmin BOOLEAN NOT NULL DEFAULT FALSE,
+  
 );
 CREATE TABLE catsOwners(
   id INT PRIMARY KEY AUTO_INCREMENT,

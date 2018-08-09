@@ -19,9 +19,9 @@
 		if ($_SESSION['isAdmin']){
 			
 			if (basename($currentPage, '.php') == 'owners'){
-				echo "<li class='nav-item active'><a class='nav-link' href='owners.php'>Owners</a></li>";
+				echo "<li class='nav-item active'><a class='nav-link' href='../admin/owners.php'>Owners</a></li>";
 			}else{
-				echo "<li class='nav-item'><a class='nav-link' href='owners.php'>Owners</a></li>";
+				echo "<li class='nav-item'><a class='nav-link' href='../admin/owners.php'>Owners</a></li>";
 			}
 			
 			if (basename($currentPage, '.php') == 'animals')
@@ -39,9 +39,19 @@
                     <a class='dropdown-item' href='../admin/animals.php?animal=exotics'>Exotics</a>
                 </div>
             </li>";
+		}elseif ($_SESSION['loggedIn']){
+			
+						
+			if (basename($currentPage, '.php') == 'pets'){
+				echo "<li class='nav-item active'><a class='nav-link' href='pets.php'>Pets</a></li>";
+			}else{
+				echo "<li class='nav-item'><a class='nav-link' href='pets.php'>Pets</a></li>";	
+			}
+			
 		}
 		if ($_SESSION['loggedIn']){
 			echo "<li class='nav-item'><a class='nav-link' href='../logout.php'>Logout</a></li>";
+			echo "<p class='nav navbar-text' style='margin-left:5px;'>Welcome, ". $_SESSION['fname'] . "</p> ";
 		}else if (basename($currentPage, '.php') != 'login'){
 			echo "<li class='nav-item'><a class='nav-link' href='login.php'>Login</a></li>";
 		}

@@ -1,0 +1,40 @@
+.table {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(50px, 1fr));
+  width: 99.3%;
+  border-right: 1px solid black;
+  border-bottom: 1px solid black;
+}
+.table span{
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.tableRow {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(50px, 1fr));
+}
+
+.tableRow:nth-child(even) { 
+	background-color: #dedede;
+
+}
+
+.tableRow {
+	border-top: 1px solid black;
+}
+
+.tableCell {
+    padding: 10px;
+    text-align: left;
+    height: 68px;
+	border-left: 1px solid black;
+
+	display: table;
+}
+.header {
+	background-color: #1AC9A7;
+    color: white;
+    cursor: pointer;
+}

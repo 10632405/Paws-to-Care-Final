@@ -20,7 +20,15 @@ main {
 	background-color:#fff;
 	flex:1;
 }
+#mainTableDivOuter {
+  width: 100%;
+  display: flex;
+}
 
+#mainTableDivCenter {
+  margin: 25px auto auto auto;
+  
+}
 .googleMapBox {
 	width:350px;
 	height:350px;
@@ -139,4 +147,18 @@ li > a {
 	color:#444;
 	font-size:13px;
 	text-decoration:none;
+}
+.loader {
+    border: 16px solid #f3f3f3;
+    border-top: 16px solid #1AC9A7;
+	border-bottom: 16px solid #1AC9A7;
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }
